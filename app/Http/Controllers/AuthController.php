@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AuthorizeRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function authorize(AuthorizeRequest $request)
+    public function login(AuthorizeRequest $request)
     {
         $validated = $request->validated();
 
@@ -26,12 +27,17 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function unauthorize(Request $request)
+    public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Unauthorized successfully.',
         ], 200);
+    }
+
+    public function user(Request $request)
+    {
+        return response()->json(UserResource::make($request->user()), 200);
     }
 }
