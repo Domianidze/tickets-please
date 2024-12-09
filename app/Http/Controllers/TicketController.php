@@ -44,7 +44,17 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        //
+        $user = $request->user();
+
+        if ($user->id !== $ticket->user_id) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        $validated = $request->validated()['data'];
+
+        $ticket->update($validated);
+
+        return TicketResource::make($ticket);
     }
 
     /**

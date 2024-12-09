@@ -18,7 +18,7 @@ class TicketResource extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'event' => $this->event,
-            $this->mergeWhen($request->routeIs('tickets.show'), [
+            $this->mergeWhen(!$request->routeIs('tickets.index'), [
                 'seat' => $this->seat,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,

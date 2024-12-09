@@ -2,16 +2,14 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateTicketRequest extends FormRequest
+class UpdateTicketRequest extends TicketRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +20,9 @@ class UpdateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'data.status' => 'sometimes|required|string|in:available,taken,expired',
+            'data.event' => 'sometimes|required|string|min:3|max:255',
+            'data.seat' => 'sometimes|required|integer|min:1|max:100',
         ];
     }
 }
