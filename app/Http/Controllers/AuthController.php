@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function login(AuthorizeRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->validated()['data'];
 
         if (!Auth::attempt($validated)) {
             return response()->json(['message' => 'Invalid credentials.'], 401);
@@ -38,6 +38,6 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json(UserResource::make($request->user()), 200);
+        return UserResource::make($request->user());
     }
 }

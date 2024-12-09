@@ -11,7 +11,7 @@ class StoreTicketRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'data.status' => 'required|string|in:available,taken,expired',
+            'data.event' => 'required|string|min:3|max:255',
+            'data.seat' => 'required|integer|min:1|max:100',
         ];
     }
 }

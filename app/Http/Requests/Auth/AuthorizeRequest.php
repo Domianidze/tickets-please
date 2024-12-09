@@ -22,8 +22,8 @@ class AuthorizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'data.email' => ['required', 'string', 'email'],
+            'data.password' => ['required', 'string'],
         ];
     }
 }
