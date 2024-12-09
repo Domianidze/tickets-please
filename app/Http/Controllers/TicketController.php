@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -60,8 +61,18 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Request $request, Ticket $ticket)
     {
-        //
+        $user = $request->user();
+
+        if ($user->id !== $ticket->user_id) {
+            return response()->json(['message' => 'Unauthorized.'], 401);
+        }
+
+        $ticket->delete();
+
+        return response()->json([
+            'message' => 'Deleted successfully.',
+        ], 200);
     }
 }
