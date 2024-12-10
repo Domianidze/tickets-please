@@ -7,7 +7,7 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller
 {
@@ -45,11 +45,7 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        $user = $request->user();
-
-        if ($user->id !== $ticket->user_id) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
+        Gate::authorize('modify', $ticket);
 
         $validated = $request->validated()['data'];
 
@@ -61,13 +57,9 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Ticket $ticket)
+    public function destroy(Ticket $ticket)
     {
-        $user = $request->user();
-
-        if ($user->id !== $ticket->user_id) {
-            return response()->json(['message' => 'Unauthorized.'], 401);
-        }
+        Gate::authorize('modify', $ticket);
 
         $ticket->delete();
 
