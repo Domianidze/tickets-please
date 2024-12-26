@@ -25,9 +25,9 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request)
     {
         $validated = $request->validated()['data'];
-        $user = $request->user();
+        $validated['user_id'] ??= $request->user()->id;
 
-        $ticket = Ticket::create([...$validated, 'user_id' => $user->id]);
+        $ticket = Ticket::create($validated); 
 
         return TicketResource::make($ticket);
     }

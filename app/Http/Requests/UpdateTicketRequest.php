@@ -23,6 +23,7 @@ class UpdateTicketRequest extends TicketRequest
             'data.status' => 'sometimes|required|string|in:available,taken,expired',
             'data.event' => 'sometimes|required|string|min:3|max:255',
             'data.seat' => 'sometimes|required|integer|min:1|max:100',
+            'data.user_id' => auth()->user()->is_admin ? 'sometimes|required|integer|exists:users,id' : 'prohibited',
         ];
     }
 }

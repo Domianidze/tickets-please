@@ -14,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::create([
+            "name" => "Admin",
+            'email' => 'admin@example.com',
+            "password" => "password",
+            "is_admin" => true,
+        ]);
+
         $users = User::factory(10)->create();
 
         Ticket::factory(100)->recycle($users)->create();
