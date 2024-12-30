@@ -19,11 +19,16 @@ class StoreTicketRequest extends TicketRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'data.status' => 'required|string|in:available,taken,expired',
             'data.event' => 'required|string|min:3|max:255',
             'data.seat' => 'required|integer|min:1|max:100',
-            'data.user_id' => auth()->user()->is_admin ? 'sometimes|required|integer|exists:users,id' : 'prohibited',
         ];
+
+        if (request()->routeIs('tickets.store')) {
+            $rules['data.user_id'] = auth()->user()->is_admin ? 'sometimes|required|integer|exists:users,id' : 'prohibited';
+        }
+
+        return $rules;
     }
 }

@@ -20,6 +20,10 @@ class Filters
     {
         foreach ($value as $key => $value) {
             if (method_exists($this, $key)) {
+                if (!$value) {
+                    continue;
+                }
+
                 $this->$key($value);
             }
         }
@@ -59,4 +63,4 @@ class Filters
 
         return $this->builder;
     }
-};
+}
