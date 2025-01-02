@@ -37,9 +37,4 @@ class AuthController extends Controller
             'message' => 'Unauthorized successfully.',
         ], 200);
     }
-
-    public function user(Request $request)
-    {
-        return UserResource::make($request->user());
-    }
 }
